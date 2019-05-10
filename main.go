@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"os"
 
+	"github.com/HugoJBello/go-twitter/twitter"
+	"github.com/dghubble/oauth1"
 	"github.com/joho/godotenv"
-	"ithub.com/dghubble/go-twitter/twitter"
 )
 
 func main() {
@@ -12,10 +14,10 @@ func main() {
 	if e != nil {
 		fmt.Print(e)
 	}
-	costumerKey := ""
-	consumerSecret := ""
-	accessToken := ""
-	accessSecret := ""
+	consumerKey := os.Getenv("API_KEY")
+	consumerSecret := os.Getenv("API_TOKEN")
+	accessToken := os.Getenv("ACCESS_TOKEN_KEY")
+	accessSecret := os.Getenv("ACCESS_TOKEN_SECRET_SECRET_SECRET_SECRET")
 
 	config := oauth1.NewConfig(consumerKey, consumerSecret)
 	token := oauth1.NewToken(accessToken, accessSecret)
@@ -24,28 +26,12 @@ func main() {
 	// Twitter client
 	client := twitter.NewClient(httpClient)
 
-	// Home Timeline
-	tweets, resp, err := client.Timelines.HomeTimeline(&twitter.HomeTimelineParams{
-		Count: 20,
-	})
+	// //#suicidio geocode:42.4,-3.7,1000km since:2019-05-01 until:2019-05-02 count=1000
+	search, _, err := client.Search.Tweets(&twitter.SearchTweetParams{
+		Query: "#suicidio", Until: "2019-05-02", Since: "2019-05-01"})
 
-	// Send a Tweet
-	tweet, resp, err := client.Statuses.Update("just setting up my twttr", nil)
-
-	// Status Show
-	tweet, resp, err := client.Statuses.Show(585613041028431872, nil)
-
-	// Search Tweets
-	search, resp, err := client.Search.Tweets(&twitter.SearchTweetParams{
-		Query: "gopher",
-	})
-
-	// User Show
-	user, resp, err := client.Users.Show(&twitter.UserShowParams{
-		ScreenName: "dghubble",
-	})
-
-	// Followers
-	followers, resp, err := client.Followers.List(&twitter.FollowerListParams{})
+	fmt.Println(search.Statuses)
+	// fmt.Println(resp)
+	fmt.Println(err)
 
 }
