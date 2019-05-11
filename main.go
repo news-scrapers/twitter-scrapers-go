@@ -17,7 +17,7 @@ func main() {
 	consumerKey := os.Getenv("API_KEY")
 	consumerSecret := os.Getenv("API_TOKEN")
 	accessToken := os.Getenv("ACCESS_TOKEN_KEY")
-	accessSecret := os.Getenv("ACCESS_TOKEN_SECRET_SECRET_SECRET_SECRET")
+	accessSecret := os.Getenv("ACCESS_TOKEN_SECRET")
 
 	config := oauth1.NewConfig(consumerKey, consumerSecret)
 	token := oauth1.NewToken(accessToken, accessSecret)
@@ -28,9 +28,12 @@ func main() {
 
 	// //#suicidio geocode:42.4,-3.7,1000km since:2019-05-01 until:2019-05-02 count=1000
 	search, _, err := client.Search.Tweets(&twitter.SearchTweetParams{
-		Query: "#suicidio", Until: "2019-05-02", Since: "2019-05-01"})
+		Query: "Suicidio", Locale: "ES", Until: "2019-05-02", Since: "2019-04-01", Count: 1000})
 
-	fmt.Println(search.Statuses)
+	for _, twitt := range search.Statuses {
+		fmt.Println(twitt)
+	}
+	// fmt.Println(search.Statuses)
 	// fmt.Println(resp)
 	fmt.Println(err)
 
