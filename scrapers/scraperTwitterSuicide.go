@@ -36,9 +36,9 @@ func (scraper TwitterScraperSuicide) ScrapDate(date time.Time) []twitter.Tweet {
 	formatedDate := date.Format("2006-01-02")
 	dateBefore := date.AddDate(0, 0, -1)
 	formatedDateBefore := dateBefore.Format("2006-01-02")
-
+	fmt.Printf("searching twitts from %s to %s", formatedDateBefore, formatedDate)
 	search, _, err := scraper.Client.Search.Tweets(&twitter.SearchTweetParams{
-		Query: "Suicidio", Geocode: "42.4,-3.7,1000km", Until: formatedDate, Since: formatedDateBefore, Count: 1000})
+		Query: "#suicidio", Geocode: "42.4,-3.7,650km", Until: formatedDate, Since: formatedDateBefore})
 
 	for _, twitt := range search.Statuses {
 		fmt.Println(twitt)
